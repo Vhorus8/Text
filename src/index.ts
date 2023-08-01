@@ -1,4 +1,6 @@
-import { Application, SCALE_MODES, Sprite, settings } from 'pixi.js'
+import { Application, Loader, SCALE_MODES, settings } from 'pixi.js'
+import { assets } from './assets';
+import { TextScene } from './escenas/TextScene';
 
 export const WIDTH = 640;
 export const HEIGHT = 480;
@@ -36,3 +38,20 @@ window.addEventListener("resize", ()=>{
 	app.view.style.marginTop = marginVertical + "px";
 });
 window.dispatchEvent(new Event("resize"));
+
+
+// Loader.registerPlugin(WebfontLoaderPlugin) // deprecated since 6.5.0
+
+
+Loader.shared.add(assets);
+
+Loader.shared.onComplete.add(()=>{
+	const escena = new TextScene();
+	app.stage.addChild(escena);
+
+	// Ticker.shared.add(function(deltaFrame){
+	// 	escena.update(Ticker.shared.deltaMS, deltaFrame);
+	// });
+});
+
+Loader.shared.load();
